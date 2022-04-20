@@ -1,0 +1,8 @@
+plotly
+yfinance
+pandas 
+peewee 
+rich
+numpy
+webull
+peewee

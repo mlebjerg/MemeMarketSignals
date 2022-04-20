@@ -1,4 +1,4 @@
-
-.conf
+venv
+.idea
 did.bin
 *.db

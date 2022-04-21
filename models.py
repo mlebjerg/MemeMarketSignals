@@ -4,7 +4,7 @@ from peewee import *
 print("Enter ticker:")
 symbol = input().upper()
 
-db = SqliteDatabase(f"{symbol}.db")
+db = SqliteDatabase(f"{symbol}db.db")
 
 
 class BaseModel(Model):

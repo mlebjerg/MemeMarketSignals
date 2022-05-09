@@ -1,10 +1,15 @@
+import configparser
 from peewee import *
 
 
 print("Enter ticker:")
 symbol = input().upper()
+config = configparser.ConfigParser()
+config.read('.conf')
+webull_user = config['DEFAULT']['webull_user']
+webull_pass = config['DEFAULT']['webull_pass']
 
-db = SqliteDatabase(f"{symbol}.db")
+db = SqliteDatabase(f"databases/{symbol}db.db")
 
 
 class BaseModel(Model):

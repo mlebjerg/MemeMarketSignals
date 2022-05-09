@@ -14,8 +14,7 @@ from rich.console import Console
 from webull import webull
 from webull.webull import timezone
 
-from models import Deal, Order, symbol
-
+from models import Deal, Order, symbol, webull_user, webull_pass
 
 print("\033c", end="")
 
@@ -143,8 +142,8 @@ console = Console()
 
 webull = webull()
 webull.login(
-    username=os.getenv("WEBULL_USER"),
-    password=os.getenv("WEBULL_PASS")
+    username=webull_user,
+    password=webull_pass
 )
 webull.get_account_id()
 

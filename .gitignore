@@ -3,4 +3,6 @@ venv
 did.bin
 *.db
 .conf
-__pycache__/models.cpython-310.pyc
+__pycache__/*
+csvs/*
+*.log

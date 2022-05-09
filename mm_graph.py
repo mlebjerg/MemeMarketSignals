@@ -1,25 +1,37 @@
 from datetime import datetime, date
+from itertools import count
+import os
 import yfinance as yf
 import pandas as pd
 import plotly.graph_objs as go
-
+from webull import webull
 from models import Deal, symbol
 
 request_url = "https://www.nyse.com/api/regulatory/threshold-securities/" \
               "filter?selectedDate={}&market=&filterToken=XRT&max=10&offset=0" \
               "&pageNumber=1&sortOrder=up&sortType="
+today = "2022-05-02"
+interval = "m1"
+from_time = "14:30"
+fmt = '%Y-%m-%d %H:%M'
+minutes_since = round((datetime.now() -
+                       (datetime.strptime(f"{today} {from_time}", fmt))).total_seconds() / 60.0)
 
+webull = webull()
+# data = webull.get_bars(stock=symbol, interval=interval,
+#                       count=450, extendTrading=1)
 data = yf.download(
     tickers=symbol,
     period="1d",
     interval="1m",
+    # start="2022-05-02",
+    # end="2022-05-03",
     group_by='ticker',
     auto_adjust=True,
     prepost=True,
     threads=True,
     proxy=None
 )
-
 fig = go.Figure()
 fig.add_trace(go.Candlestick())
 fig.add_trace(
@@ -31,8 +43,6 @@ fig.add_trace(
         close=data['Close'],
         name='market data')
 )
-today = date.today()
-print(today)
 l300 = pd.DataFrame(Deal.select().where(
     Deal.tradeDate.startswith(str(today)),
     Deal.volume == 300).dicts().execute())
@@ -52,7 +62,6 @@ if not l300.empty:
             marker={"color": "blue"}
         )
     )
-
 l400 = pd.DataFrame(Deal.select().where(Deal.tradeDate.startswith(
     str(today)), Deal.volume == 400).dicts().execute())
 if not l400.empty:
@@ -269,4 +278,7 @@ fig.update_layout(
     shapes=list()
 )
 
-fig.show()
+# fig.show()
+today = date.today()
+os.mkdir(f"graphs/{today.strftime('%d%b')}{symbol}")
+fig.write_html(f"graphs/{today.strftime('%d%b')}{symbol}/index.html")

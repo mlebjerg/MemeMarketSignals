@@ -262,7 +262,12 @@ sign_counts = {"300's": len(l300),
 sign_counts = pd.Series(data=sign_counts, name="Counts")
 
 
-print(f"""Signal counts:
+print(f"""
+💻🐍 Market Maker Signals Today {today} 🐍💻 Chart link in comments
+
+Here is the chart:      
+
+Signal counts:
       
 {sign_counts.to_markdown()}
       

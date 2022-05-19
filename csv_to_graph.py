@@ -8,7 +8,7 @@ from datetime import datetime, date
 request_url = "https://www.nyse.com/api/regulatory/threshold-securities/" \
               "filter?selectedDate={}&market=&filterToken=XRT&max=10&offset=0" \
               "&pageNumber=1&sortOrder=up&sortType="
-df = pd.read_csv('csvs/gme_TBTAL_20220506.csv', delimiter="|", names=[
+df = pd.read_csv('../TradeCSVs/GME_TBTAL_20220518.csv', delimiter="|", names=[
                  "datetime", "tickType", "time", "price", "size", "tickAttribLast", "exchange", "specialConditions"])
 
 
@@ -238,26 +238,29 @@ exch_signals = pd.concat([l300,
                           l2100, ]).exchange.value_counts()
 trd_exch = df.exchange.value_counts()
 exch_signals.name = "Counts"
+exch_signals.loc["Total"] = exch_signals.sum()
 trd_exch.name = "Counts"
+trd_exch.loc["Total"] = trd_exch.sum()
 
+total_vol = df["size"].sum()
 
 # fig.show()
 
 today = date.today()
 os.mkdir(f"graphs/{today.strftime('%d%b')}{symbol}")
 fig.write_html(f"graphs/{today.strftime('%d%b')}{symbol}/index.html")
-sign_counts = {"300's": len(l300),
-               "400's": len(l400),
-               "500's": len(l500),
-               "505's": len(l505),
-               "600's": len(l600),
-               "700's": len(l700),
-               "777's": len(l777),
-               "800's": len(l800),
-               "900's": len(l900),
-               "911's": len(l911),
-               "1000's": len(l1000),
-               "2100's": len(l2100)}
+sign_counts = {"🔻 Down, 300's": len(l300),
+               "➡️ Sideways, 400's": len(l400),
+               "💥 Gap it, 500's": len(l500),
+               "🤷‍♂️ I am short on shares, 505's": len(l505),
+               "🔹 Resistance, 600's": len(l600),
+               "💹 UP!, 700's": len(l700),
+               "💹 UP!, 777's": len(l777),
+               "🔊 Volume coming, 800's": len(l800),
+               "🕊️ Trade free, 900's": len(l900),
+               "📰 NEWS, 911's": len(l911),
+               "🛑 Don't let it run, 1000's": len(l1000),
+               "🚀 Let it run, 2100's": len(l2100)}
 
 sign_counts = pd.Series(data=sign_counts, name="Counts")
 
@@ -266,6 +269,9 @@ print(f"""
 💻🐍 Market Maker Signals Today {today} 🐍💻 Chart link in comments
 
 Here is the chart:      
+
+Total volume:
+{total_vol}
 
 Signal counts:
       

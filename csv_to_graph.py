@@ -5,10 +5,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from datetime import datetime, date
 
-request_url = "https://www.nyse.com/api/regulatory/threshold-securities/" \
-              "filter?selectedDate={}&market=&filterToken=XRT&max=10&offset=0" \
-              "&pageNumber=1&sortOrder=up&sortType="
-df = pd.read_csv('../TradeCSVs/GME_TBTAL_20220518.csv', delimiter="|", names=[
+df = pd.read_csv('../TradeCSVs/GME_TBTAL_20220707.csv', delimiter="|", names=[
                  "datetime", "tickType", "time", "price", "size", "tickAttribLast", "exchange", "specialConditions"])
 
 
@@ -47,7 +44,7 @@ l700 = df.loc[df['size'] == 700]
 l777 = df.loc[df['size'] == 777]
 l800 = df.loc[df['size'] == 800]
 l900 = df.loc[df['size'] == 900]
-l911 = df.loc[df['size'] == 911]
+l911 = df.loc[df['size'] == 910]
 l1000 = df.loc[df['size'] == 1000]
 l2100 = df.loc[df['size'] == 2100]
 

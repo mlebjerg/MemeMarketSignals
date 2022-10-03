@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from datetime import datetime, date
 
-df = pd.read_csv('../TradeCSVs/GME_TBTAL_20220812.csv', delimiter="|", names=[
+df = pd.read_csv('../TradeCSVs/GME_TBTAL_20221003.csv', delimiter="|", names=[
                  "datetime", "tickType", "time", "price", "size", "tickAttribLast", "exchange", "specialConditions"])
 
 
@@ -13,8 +13,8 @@ symbol = "GME"
 data = yf.download(
     tickers=symbol,
     period="1d",
-    # start="2022-04-26",
-    # end="2022-04-27",
+    #start="2022-09-27",
+    #end="2022-09-28",
     interval="1m",
     group_by='ticker',
     auto_adjust=True,
@@ -282,5 +282,5 @@ Trades pr. exchange:
 
 {trd_exch.to_markdown()}
 
-Disclaimer: This is not and should not be used as a financial instrument, the information in this post should not be used to make ANY judgement on a trade. I do sell this information to anyone, it is entirely free and opensource if people want to do it themselves. Github: https://github.com/mlebjerg/MemeMarketSignals. The chart is HTML that i export from plotly.js and upload it to netlify, a free service to host websites.
+Disclaimer: This is not and should not be used as a financial instrument, the information in this post should not be used to make ANY judgement on a trade. I do not sell this information to anyone, it is entirely free and opensource if people want to do it themselves. Github: https://github.com/mlebjerg/MemeMarketSignals. The chart is HTML that i export from plotly.js and upload it to netlify, a free service to host websites.
 """)

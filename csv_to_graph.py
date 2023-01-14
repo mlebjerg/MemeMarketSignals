@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from datetime import datetime, date
 
-df = pd.read_csv('../TradeCSVs/GME_TBTAL_20221003.csv', delimiter="|", names=[
+df = pd.read_csv('../TradeCSVs/GME_TBTAL_20221206.csv', delimiter="|", names=[
                  "datetime", "tickType", "time", "price", "size", "tickAttribLast", "exchange", "specialConditions"])
 
 
@@ -13,8 +13,8 @@ symbol = "GME"
 data = yf.download(
     tickers=symbol,
     period="1d",
-    #start="2022-09-27",
-    #end="2022-09-28",
+    #start="2022-12-05",
+    #end="2022-12-06",
     interval="1m",
     group_by='ticker',
     auto_adjust=True,

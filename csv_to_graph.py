@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from datetime import datetime, date
 
-df = pd.read_csv('../TradeCSVs/GME_TBTAL_20221206.csv', delimiter="|", names=[
+df = pd.read_csv('../TradeCSVs/GME_TBTAL_20230523.csv', delimiter="|", names=[
                  "datetime", "tickType", "time", "price", "size", "tickAttribLast", "exchange", "specialConditions"])
 
 
@@ -13,8 +13,8 @@ symbol = "GME"
 data = yf.download(
     tickers=symbol,
     period="1d",
-    #start="2022-12-05",
-    #end="2022-12-06",
+    #start="2023-05-22",
+    #end="2023-05-23",
     interval="1m",
     group_by='ticker',
     auto_adjust=True,
@@ -244,8 +244,8 @@ total_vol = df["size"].sum()
 # fig.show()
 
 today = date.today()
-os.mkdir(f"graphs/{today.strftime('%d%b')}{symbol}")
-fig.write_html(f"graphs/{today.strftime('%d%b')}{symbol}/index.html")
+os.mkdir(f"graphs/{today.strftime('%d%b%y')}{symbol}")
+fig.write_html(f"graphs/{today.strftime('%d%b%y')}{symbol}/index.html")
 sign_counts = {"🔻 Down, 300's": len(l300),
                "➡️ Sideways, 400's": len(l400),
                "💥 Gap it, 500's": len(l500),

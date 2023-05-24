@@ -1,20 +1,36 @@
 import os
 from numpy import empty
+import pyperclip
 import yfinance as yf
 import pandas as pd
 import plotly.graph_objs as go
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
-df = pd.read_csv('../TradeCSVs/GME_TBTAL_20230523.csv', delimiter="|", names=[
+startDate = None
+endDate = None
+symbol = "GME"
+today = date.today()
+
+latePost = True
+specificDay = date.fromisoformat('2023-05-23')
+
+if latePost:
+    today = specificDay
+    startDate = today.strftime('%Y-%m-%d')
+    endDateObj = today + timedelta(days=1)
+    endDate = endDateObj.strftime('%Y-%m-%d')
+
+folderName = today.strftime('%d%b%y') + symbol
+csvName = f"../TradeCSVs/GME_TBTAL_{today.strftime('%Y%m%d')}.csv"
+
+df = pd.read_csv(csvName, delimiter="|", names=[
                  "datetime", "tickType", "time", "price", "size", "tickAttribLast", "exchange", "specialConditions"])
 
-
-symbol = "GME"
 data = yf.download(
     tickers=symbol,
     period="1d",
-    #start="2023-05-22",
-    #end="2023-05-23",
+    start=startDate,
+    end=endDate,
     interval="1m",
     group_by='ticker',
     auto_adjust=True,
@@ -243,8 +259,8 @@ total_vol = df["size"].sum()
 
 # fig.show()
 
-today = date.today()
-os.mkdir(f"graphs/{today.strftime('%d%b%y')}{symbol}")
+
+os.mkdir("graphs/" + folderName)
 fig.write_html(f"graphs/{today.strftime('%d%b%y')}{symbol}/index.html")
 sign_counts = {"🔻 Down, 300's": len(l300),
                "➡️ Sideways, 400's": len(l400),
@@ -262,10 +278,10 @@ sign_counts = {"🔻 Down, 300's": len(l300),
 sign_counts = pd.Series(data=sign_counts, name="Counts")
 
 
-print(f"""
-💻🐍 Market Maker Signals Today {today} 🐍💻 Chart link in comments
+postText = f"""
+💻🐍 Market Maker Signals {today} 🐍💻
 
-Here is the chart:      
+Here is the chart: https://gme-mmsignals.netlify.app/{folderName}
 
 Total volume:
 {total_vol}
@@ -282,5 +298,20 @@ Trades pr. exchange:
 
 {trd_exch.to_markdown()}
 
+#FAQ
+*What is this?*
+
+- This is something i do every marketday, it started with this [post](https://www.reddit.com/r/Superstonk/comments/u7iox3/it_is_time_to_talk_about_market_maker_signals_i/?utm_source=share&utm_medium=web2x&context=3), go read it to learn more.
+
+*Wut mean?*
+
+- Who is really to say? Some days the signals fit really well, other day they don't, it is still up for debate.
+
+*Why do you keep posting these?*
+
+- We are keeping a watchfull on our favorite stock, even if the signals turn out not to be a thing these can still be used to see how a single trading day looked.
+
 Disclaimer: This is not and should not be used as a financial instrument, the information in this post should not be used to make ANY judgement on a trade. I do not sell this information to anyone, it is entirely free and opensource if people want to do it themselves. Github: https://github.com/mlebjerg/MemeMarketSignals. The chart is HTML that i export from plotly.js and upload it to netlify, a free service to host websites.
-""")
+"""
+#pyperclip.copy(postText)
+print(postText)

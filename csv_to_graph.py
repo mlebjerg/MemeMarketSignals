@@ -12,7 +12,7 @@ symbol = "GME"
 today = date.today()
 
 latePost = True
-specificDay = date.fromisoformat('2023-06-06')
+specificDay = date.fromisoformat('2023-06-07')
 
 if latePost:
     today = specificDay

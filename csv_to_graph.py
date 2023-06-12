@@ -11,8 +11,8 @@ endDate = None
 symbol = "GME"
 today = date.today()
 
-latePost = True
-specificDay = date.fromisoformat('2023-06-09')
+latePost = False
+specificDay = date.fromisoformat('2023-06-12')
 
 if latePost:
     today = specificDay

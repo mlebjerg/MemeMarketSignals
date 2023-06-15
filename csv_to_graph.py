@@ -11,7 +11,7 @@ endDate = None
 symbol = "GME"
 today = date.today()
 
-latePost = True
+latePost = False
 specificDay = date.fromisoformat('2023-06-14')
 
 if latePost:
